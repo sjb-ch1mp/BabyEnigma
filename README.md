@@ -1,11 +1,7 @@
 # BabyEnigma
-Simple console-based string and file encryption tool
-
-===================================
-             BabyEnigma
-Version: 1.0
-Author: Samuel Brookes (@sjb-ch1mp)
-===================================
+### *Simple console-based string and file encryption tool*
+### * Version: 1.0
+### * Author: Samuel Brookes (@sjb-ch1mp)
 
 BabyEnigma is a simple, console-based encryption tool, written in Java. It is an extremely simple program and was created primarily to help me learn Java. 
 BabyEnigma takes a keyphrase, turns it into an integer (the key) and adds this to each character in the string/file, thereby scrambling it.
