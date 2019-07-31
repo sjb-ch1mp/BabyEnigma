@@ -1,3 +1,7 @@
+/**
+ * @author Samuel Brookes
+ */
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
@@ -6,7 +10,6 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 public class BabyEnigma
 {
