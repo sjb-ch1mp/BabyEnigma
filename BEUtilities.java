@@ -21,8 +21,20 @@ class BEUtilities
 		"\n\tf: File" + 
 		"\n\tkeyPhrase: Phrase used to generate key" + 
 		"\n\t======================================";
-
 	public final String usage = "Usage: [e|d][s|f] [keyPhrase] [filePath] | r [keyPhrase] [filePath] | q";
+	private String[] errorMsg = new String[1];
+
+	public boolean commandOK(String command)
+	{
+		int commaCnt = 0;
+		int spaceCnt = 0;
+		for(int i=0; i<command.length(); i++)
+		{
+			if(command.charAt(i) == '"') commaCnt++;
+			if(command.charAt(i) == ' ') spaceCnt++;
+		}
+		return ((commaCnt == 2) && (spaceCnt > 1));
+	}
 
 	public boolean argsOK(String args[])
 	{
@@ -79,6 +91,7 @@ class BEUtilities
 	public String[] buildFileArray(String file)
 	{//This method builds an array from the specified file
 		String[] fileArray = null;
+		boolean err = false;
 
 		//count the lines in the file
 		int lineCount = 0;
@@ -92,48 +105,68 @@ class BEUtilities
 		catch(FileNotFoundException exc)
 		{
 			System.out.println("File not found");
+			err = true;
 		}
 		catch(IOException exc)
 		{
 			System.out.println("Error reading file");
+			err = true;
 		}
 
-		//import the lines to the file
-		fileArray = new String[lineCount];
-		for(int i=0; i<fileArray.length; i++)
+		if(!err)
 		{
-			fileArray[i] = "";
-		}
-
-		try(BufferedReader br = new BufferedReader(new FileReader(file)))
-		{
-			String line = "";
-			int idx = 0;
-			while((line = br.readLine()) != null)
+			//import the lines to the file
+			fileArray = new String[lineCount];
+			for(int i=0; i<fileArray.length; i++)
 			{
-				if(!line.equals(""))
+				fileArray[i] = "";
+			}
+
+			try(BufferedReader br = new BufferedReader(new FileReader(file)))
+			{
+				String line = "";
+				int idx = 0;
+				while((line = br.readLine()) != null)
 				{
-					fileArray[idx++] = line;
+					if(!line.equals(""))
+					{
+						fileArray[idx++] = line;
+					}
 				}
 			}
-		}
-		catch(FileNotFoundException exc)
-		{
-			System.out.println("File not found");
-		}
-		catch(IOException exc)
-		{
-			System.out.println("Error reading file");
+			catch(FileNotFoundException exc)
+			{
+				System.out.println("File not found");
+				err = true;
+			}
+			catch(IOException exc)
+			{
+				System.out.println("Error reading file");
+				err = true;
+			}
 		}
 
-		return fileArray;
+		if(!err) return fileArray;
+		else
+		{
+			errorMsg[0] = "err";
+			return errorMsg;
+		}
 	}
 
 	public boolean decryptFileOK(String filePath)
 	{
 		if(filePath.indexOf(".be") == -1)
 		{
-			return false;
+			String[] fileArray = buildFileArray(filePath);
+			if(fileArray[0].equals("err")) return false;
+			else
+			{
+				for(int i=0; i<fileArray.length; i++)
+				{
+					if(!decryptStringOK(fileArray[i])) return false;
+				}
+			}
 		}
 		return true;
 	}
@@ -158,6 +191,7 @@ class BEUtilities
 				if(!fileArray[i].equals(""))
 				{
 					bw.write(fileArray[i] + "\r\n");	
+					if(fileArray[i].equals("err")) break;
 				}
 			}
 		}
@@ -167,5 +201,10 @@ class BEUtilities
 			return;
 		}
 		System.out.println("All done!\r\nFile written to: " + filePath);
+	}
+
+	public void returnToMenu()
+	{
+		return;
 	}
 }

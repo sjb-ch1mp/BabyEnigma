@@ -24,8 +24,7 @@ class BECrypter
 		}
 		else
 		{
-			String fileArray[] = util.buildFileArray(pathString);	
-			util.printToFile(pathString, fileArray, true);
+			util.printToFile(pathString, encryptFile(util.buildFileArray(pathString)), true);
 		}
 	}	
 
@@ -40,12 +39,11 @@ class BECrypter
 		{
 			if(util.decryptFileOK(pathString))
 			{
-				util.printToFile(decryptFile(util.buildFileArray(pathString)));
+				util.printToFile(pathString, decryptFile(util.buildFileArray(pathString)), false);
 			}
 			else
 			{
 				System.out.println("Wrong file format");
-				System.exit(1);
 			}
 		}
 	}
@@ -57,7 +55,12 @@ class BECrypter
 		System.out.println();
 		for(int i=0; i<fileArray.length; i++)
 		{
-			System.out.println(fileArray[i]);
+			if(fileArray[i].equals("err"))
+			{
+				System.out.println("Error");
+				break;
+			}
+			else System.out.println(fileArray[i]);
 		}
 		System.out.println();
 	}
@@ -78,7 +81,8 @@ class BECrypter
 			}
 		}
 
-		return outString;
+		if(!util.decryptStringOK(outString)) return "err";
+		else return outString;
 	}
 
 	private String[] encryptFile(String[] fileArray)
@@ -86,6 +90,7 @@ class BECrypter
 		for(int i=0; i<fileArray.length; i++)
 		{
 			fileArray[i] = encryptString(fileArray[i]);
+			if(fileArray[i].equals("err")) break;
 		}
 		return fileArray;
 	}
@@ -117,7 +122,7 @@ class BECrypter
 		}
 		else
 		{
-			return "Error - BECrypter.decryptString()";
+			return "err";
 		}
 	}
 
@@ -126,6 +131,7 @@ class BECrypter
 		for(int i=0; i<fileArray.length; i++)
 		{
 			fileArray[i] = decryptString(fileArray[i]);
+			if(fileArray[i].equals("err")) break;
 		}
 		return fileArray;
 	}
