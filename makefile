@@ -3,7 +3,7 @@ run : BabyEnigma.class BEUtilities.class BECrypter.class
 BabyEnigma.class : BabyEnigma.java
 	javac BabyEnigma.java
 BEUtilities.class : BEUtilities.java
-	javac BabyUtilities.java
+	javac BEUtilities.java
 BECrypter.class : BECrypter.java
 	javac BECrypter.java
 clean : 

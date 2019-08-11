@@ -8,19 +8,21 @@ import java.io.FileWriter;
 class BEUtilities
 {
 	public final String info = 
-		"\n===  BabyEnigma v2.1  ===" + 
-		"\n=== By Samuel Brookes ===\n" + 
-		"\nBabyEnigma is a very simple string and text file encrypter/decrypter.\n" + 
-		"\nUsage: \t[e|d][s|f] [keyPhrase] \"[filePath|string]\" | r [keyPhrase] \"[filePath]\" | q" + 
-		"\n\t======================================" + 
-		"\n\tq: quit" + 
-		"\n\te: Encrypt" + 
-		"\n\td: Decrypt" + 
-		"\n\tr: Read decrypted file (no write)" +
-		"\n\ts: String" + 
-		"\n\tf: File" + 
-		"\n\tkeyPhrase: Phrase used to generate key" + 
-		"\n\t======================================";
+		"\n=========================================================" + 
+		"\n\t\tBabyEnigma v2.1\n" + 
+		"\n @author\tsjb-ch1mp" + 
+		"\n @info\t\tBabyEnigma is a very simple string and text " + 
+		"\n\t\tfile encrypter/decrypter." + 
+		"\n Usage_1:\t[e|d][s|f] [key phrase] \"[file path|string]\"" +
+		"\n Usage_2:\tr [key phrase] \"[file path]\"" + 
+		"\n Usage_3:\tq" + 
+		"\n @legend\tq: quit" + 
+		"\n\t\te: encrypt" + 
+		"\n\t\td: decrypt" + 
+		"\n\t\tr: read decrypted file (no write)" +
+		"\n\t\ts: string" + 
+		"\n\t\tf: file" + 
+		"\n=========================================================\n";
 	public final String usage = "Usage: [e|d][s|f] [keyPhrase] [filePath] | r [keyPhrase] [filePath] | q";
 	private String[] errorMsg = new String[1];
 
