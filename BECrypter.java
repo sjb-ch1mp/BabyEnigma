@@ -15,94 +15,51 @@ class BECrypter
 		util = new BEUtilities();
 	}
 
-	public void encrypt(String stringFile, String keyPhrase)
+	public void encrypt(String stringFile, String keyPhrase, String pathString)
 	{
 		key = util.buildKey(keyPhrase);
-		System.out.println("Enter the " + 
-			((stringFile.equals("-f"))?"path of the file":"string") +
-			" that you would like encrypted: ");
-		System.out.print("> ");
-		try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)))
+		if(stringFile.equals("s"))
 		{
-			if(stringFile.equals("-s"))
-			{
-				String s = encryptString(br.readLine());
-				System.out.println(s);
-			}
-			else
-			{
-				filePath = br.readLine();
-				String fileArray[] = util.buildFileArray(filePath);
-				fileArray = encryptFile(fileArray);
-				util.printToFile(filePath, fileArray, true);
-			}
+			System.out.println(encryptString(pathString));
 		}
-		catch(IOException exc)
+		else
 		{
-			System.out.println("I/O Error: BECrypter.encrypt()");
-			System.exit(1);
+			String fileArray[] = util.buildFileArray(pathString);	
+			util.printToFile(pathString, fileArray, true);
 		}
 	}	
 
-	public void decrypt(String stringFile, String keyPhrase)
+	public void decrypt(String stringFile, String keyPhrase, String pathString)
 	{
 		key = util.buildKey(keyPhrase);
-		System.out.println("Enter the " + 
-			((stringFile.equals("-f"))?"path of the file":"string") +
-			" that you would like decrypted: ");
-		System.out.print("> ");
-		try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)))
+		if(stringFile.equals("s"))
 		{
-			if(stringFile.equals("-s"))
+			System.out.println(decryptString(pathString));
+		}
+		else
+		{
+			if(util.decryptFileOK(pathString))
 			{
-				String s = decryptString(br.readLine());
-				System.out.println(s);
+				util.printToFile(decryptFile(util.buildFileArray(pathString)));
 			}
 			else
 			{
-				filePath = br.readLine();
-				if(util.decryptFileOK(filePath))
-				{
-					String fileArray[] = util.buildFileArray(filePath);
-					fileArray = decryptFile(fileArray);
-					util.printToFile(filePath, fileArray, false);
-				}
-				else
-				{
-					System.out.println("Wrong file format");
-					System.exit(1);
-				}
+				System.out.println("Wrong file format");
+				System.exit(1);
 			}
-		}
-		catch(IOException exc)
-		{
-			System.out.println("I/O Error: BECrypter.decrypt()");
-			System.exit(1);
 		}
 	}
 
-	public void decryptAndShow(String keyPhrase)
+	public void decryptAndShow(String keyPhrase, String filePath)
 	{
 		key = util.buildKey(keyPhrase);
-		System.out.println("Enter the path of the file that you would like decrypted: ");
-		System.out.print("> ");
-		try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in)))
+		String[] fileArray = decryptFile(util.buildFileArray(filePath));
+		System.out.println();
+		for(int i=0; i<fileArray.length; i++)
 		{
-			filePath = br.readLine();
-			String[] fileArray = util.buildFileArray(filePath);
-			fileArray = decryptFile(fileArray);
-			System.out.println();
-			for(int i=0; i<fileArray.length; i++)
-			{
-				System.out.println(fileArray[i]);
-			}
-			System.out.println();
+			System.out.println(fileArray[i]);
 		}
-		catch(IOException exc)
-		{
-			System.out.println("I/O Error: BECrypter.decryptAndShow()");
-			System.exit(1);
-		}
+		System.out.println();
 	}
 
 	private String encryptString(String s)

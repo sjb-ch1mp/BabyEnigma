@@ -7,46 +7,37 @@ import java.io.FileWriter;
 
 class BEUtilities
 {
-	private String info = "\n=== BabyEnigma v2" + 
-		"\n=== By Samuel Brookes\n" + 
+	public final String info = 
+		"\n===  BabyEnigma v2.1  ===" + 
+		"\n=== By Samuel Brookes ===\n" + 
 		"\nBabyEnigma is a very simple string and text file encrypter/decrypter.\n" + 
-		"\nUsage: \tjava BabyEnigma [-e|-d] [-s|-f] [keyPhrase]" + 
-		"\n\tjava BabyEnigma -r [keyPhrase]" + 
-		"\n\tjava BabyEnigma -i\n" +
-		"\n\t-e: Encrypt" + 
-		"\n\t-d: Decrypt" + 
-		"\n\t-r: Read decrypted file (no write)" +
-		"\n\t-i: Show Information (this)" + 
-		"\n\t-s: String" + 
-		"\n\t-f: File" + 
-		"\n\tkeyPhrase: Phrase used to generate key";
+		"\nUsage: \t[e|d][s|f] [keyPhrase] \"[filePath|string]\" | r [keyPhrase] \"[filePath]\" | q" + 
+		"\n\t======================================" + 
+		"\n\tq: quit" + 
+		"\n\te: Encrypt" + 
+		"\n\td: Decrypt" + 
+		"\n\tr: Read decrypted file (no write)" +
+		"\n\ts: String" + 
+		"\n\tf: File" + 
+		"\n\tkeyPhrase: Phrase used to generate key" + 
+		"\n\t======================================";
 
-	public String getInfo()
-	{
-		return info;
-	}
+	public final String usage = "Usage: [e|d][s|f] [keyPhrase] [filePath] | r [keyPhrase] [filePath] | q";
 
 	public boolean argsOK(String args[])
 	{
-		if(args.length == 1)
+		if(args.length == 3)
 		{
-			if(args[0].equals("-i"))
+			if(args[0].equals("r"))
 			{
 				return true;
 			}
 		}
-		else if(args.length == 2)
+		else if(args.length == 4)
 		{
-			if(args[0].equals("-r"))
+			if(args[0].equals("e") || args[0].equals("d"))
 			{
-				return true;
-			}
-		}
-		else if(args.length == 3)
-		{
-			if(args[0].equals("-e") || args[0].equals("-d"))
-			{
-				if(args[1].equals("-s") || args[1].equals("-f"))
+				if(args[1].equals("s") || args[1].equals("f"))
 				{
 					return true;
 				}
@@ -100,11 +91,11 @@ class BEUtilities
 		}
 		catch(FileNotFoundException exc)
 		{
-			System.out.println("FileNotFoundException: be.BuildFileArray");
+			System.out.println("File not found");
 		}
 		catch(IOException exc)
 		{
-			System.out.println("IOException: be.BuildFileArray");
+			System.out.println("Error reading file");
 		}
 
 		//import the lines to the file
@@ -128,11 +119,11 @@ class BEUtilities
 		}
 		catch(FileNotFoundException exc)
 		{
-			System.out.println("FileNotFoundException: BEUtilities.buildFileArray()");
+			System.out.println("File not found");
 		}
 		catch(IOException exc)
 		{
-			System.out.println("IOException: BEUtilities.buildFileArray()");
+			System.out.println("Error reading file");
 		}
 
 		return fileArray;
@@ -172,7 +163,7 @@ class BEUtilities
 		}
 		catch(IOException exc)
 		{
-			System.out.println("IOException: be.main");
+			System.out.println("Error writing to file");
 			return;
 		}
 		System.out.println("All done!\r\nFile written to: " + filePath);
