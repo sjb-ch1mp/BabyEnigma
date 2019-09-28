@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.File;
 
 class BabyEnigma
 {
@@ -30,13 +31,18 @@ class BabyEnigma
 						{
 							args[2] = command.split(" ")[1];
 							args[3] = command.substring(command.indexOf("\"") + 1, command.lastIndexOf("\""));
-							if(util.argsOK(args))
-							{
 
-								if(args[0].equals("e")) crypt.encrypt(args[1], args[2], args[3]);
-								else crypt.decrypt(args[1], args[2], args[3]);
+							if(new File(args[3]).exists()) 
+							{
+								if(util.argsOK(args))
+								{
+
+									if(args[0].equals("e")) crypt.encrypt(args[1], args[2], args[3]);
+									else crypt.decrypt(args[1], args[2], args[3]);
+								}
+								else System.out.println(util.usage);	
 							}
-							else System.out.println(util.usage);
+							else System.out.println("BabyEnigma > File not found");							
 						}
 						else
 						{
@@ -51,10 +57,14 @@ class BabyEnigma
 							args = command.split(" ");
 							args[2] = args[2].replace("\"", "");
 
-							if(util.argsOK(args))
+							if(new File(args[2]).exists())
 							{
-								crypt.decryptAndShow(args[1], args[2]);		
+								if(util.argsOK(args))
+								{
+									crypt.decryptAndShow(args[1], args[2]);		
+								}	
 							}
+							else System.out.println("BabyEnigma > File not found");
 						}
 					}
 					else System.out.println(util.usage);

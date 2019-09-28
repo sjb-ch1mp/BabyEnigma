@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.File;
 
 class BEUtilities
 {
@@ -78,7 +79,10 @@ class BEUtilities
 
 		if(encrypted)
 		{
-			filePath = filePath.substring(0, filePath.lastIndexOf("."));
+			if(filePath.contains("."))
+			{
+				filePath = filePath.substring(0, filePath.lastIndexOf("."));
+			}
 			filePath += ".be";
 		}
 		else
